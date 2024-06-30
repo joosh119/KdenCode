@@ -29,13 +29,13 @@ int main(int argc, char** argv){
     proj.CreateClipOnAudioTrack( 0, "Free_Test_Data_500KB_MP3", 20 );
 
     // Add a clip to both the audio and video tracks
-    Clip &clip_1 = proj.CreateClip("cavern_clinger_boss", 10);
+    Clip* clip_1 = proj.CreateClip("cavern_clinger_boss", 10);
     proj.AddClipToVideoTrack(9, clip_1);
     proj.AddClipToAudioTrack(9, clip_1);
 
     // You can set the length and fade of the clip after adding it
-    clip_1.SetBounds(15);
-    clip_1.SetFadeOffsets(1, 0);
+    clip_1->SetBounds(15);
+    clip_1->SetFadeOffsets(1, 0);
 
     // Generate the .kdenlive file. The resulting file should open in Kdenlive.
     vector<string> media_paths = {MEDIA_FOLDER_PATH};

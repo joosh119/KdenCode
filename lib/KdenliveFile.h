@@ -83,6 +83,9 @@ class KdenliveFile{
      */
     TrackEntryId AddClipToTrack(const TrackId track_id, const ClipId clip_id, const float clip_length, const float clip_start_offset = 0);
     /** Adds a fade filter to the given entry, on the given track.
+     *  
+     *  NOTE: This does not currently affect clips placed on an audio track.
+     * 
      *  @param fade_in_time specifies how long the fade will last at the beginning of the entry.
      *  @param fade_out_time specifies how long the fade will last at the end of the entry.
      */

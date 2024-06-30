@@ -59,7 +59,7 @@ class KdenliveProject{
 	// SETTERS
 	/**	Creates a clip with the given name and length.
 	 * 	This clip can then be passed to AddClipToVideoTrack() and/or AddClipToAudioTrack() to add it to the timeline.
-	 * 	If you add the same Clip& multiple times to a track, then any changes made to the clip will be reflected across the entire timeline.
+	 * 	If you add the same Clip* multiple times to a track, then any changes made to the clip will be reflected across the entire timeline.
 	 * 
 	 * 	NOTE: The name of the clip should not contain the file extension, as the file name is searched for when generating the KdenliveFile.
 	 * 	
@@ -67,19 +67,19 @@ class KdenliveProject{
 	 * 	@param length specifies how long the clip will be on the track.
 	 *	@param start_offset specifies how far from the beginning of the clip that the clip will begin playing on the track.
 	 */
-	Clip& CreateClip(const std::string &name, const float length, const float start_offset = 0);
+	Clip* CreateClip(const std::string &name, const float length, const float start_offset = 0);
 	/**	Adds a video clip at the given time.
 	 * 
 	 * 	@param time_stamp specifies the time that the clip starts at.
 	 *	@param clip specifies the clip to be added to the track.
 	 */
-	void AddClipToVideoTrack(const float time_stamp, Clip& clip);
+	void AddClipToVideoTrack(const float time_stamp, Clip* clip);
 	/**	Adds an audio clip at the given time.
 	 * 
 	 * 	@param time_stamp specifies the time that the clip starts at.
 	 *	@param clip specifies the clip to be added to the track.
 	 */
-	void AddClipToAudioTrack(const float time_stamp, Clip& clip);
+	void AddClipToAudioTrack(const float time_stamp, Clip* clip);
 	/**	Creates a clip with the given name and length, and then adds it to a video track at the given time.
 	 * 	It is the same as calling both CreateClip() and AddClipToVideoTrack(), but in a more compact package.
 	 * 
@@ -88,7 +88,7 @@ class KdenliveProject{
 	 * 	@param length specifies how long the clip will be on the track.
 	 *	@param start_offset specifies how far from the beginning of the clip that the clip will begin playing on the track.
 	 */
-	Clip& CreateClipOnVideoTrack(const float time_stamp, const std::string &name, const float length, const float start_offset = 0);
+	Clip* CreateClipOnVideoTrack(const float time_stamp, const std::string &name, const float length, const float start_offset = 0);
 	/**	Creates a clip with the given name and length, and then adds it to an audio track at the given time.
 	 * 	It is the same as calling both CreateClip() and AddClipToAudioTrack(), but in a more compact package.
 	 * 
@@ -97,7 +97,7 @@ class KdenliveProject{
 	 * 	@param length specifies how long the clip will be on the track.
 	 *	@param start_offset specifies how far from the beginning of the clip that the clip will begin playing on the track.
 	 */
-	Clip& CreateClipOnAudioTrack(const float time_stamp, const std::string &name, const float length, const float start_offset = 0);
+	Clip* CreateClipOnAudioTrack(const float time_stamp, const std::string &name, const float length, const float start_offset = 0);
 
 	// GENERATE PROJECT FILE
 	/**	Generates a KdenliveFile and retrieves the string representing the file.
@@ -125,8 +125,8 @@ class KdenliveProject{
 	int frame_width;
 	int frame_length;
 	std::list<Clip> clips;
-	std::multimap<float, Clip&> video_timeline;
-	std::multimap<float, Clip&> audio_timeline;
+	std::multimap<float, Clip*> video_timeline;
+	std::multimap<float, Clip*> audio_timeline;
 	KdenliveFile kdenlive_file;
 };
 

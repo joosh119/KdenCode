@@ -56,27 +56,27 @@ KdenliveProject::KdenliveProject(const float framerate, const int frame_width, c
 
 
 // SETTERS
-Clip& KdenliveProject::CreateClip(const string &name, const float length, const float start_offset){
+Clip* KdenliveProject::CreateClip(const string &name, const float length, const float start_offset){
 	clips.push_back(Clip(name, length, start_offset));
-	return clips.back();
+	return &clips.back();
 }
 
-void KdenliveProject::AddClipToVideoTrack(const float time_stamp, Clip& clip){
+void KdenliveProject::AddClipToVideoTrack(const float time_stamp, Clip* clip){
 	video_timeline.insert( { time_stamp, clip} );
 }
-void KdenliveProject::AddClipToAudioTrack(const float time_stamp, Clip& clip){
+void KdenliveProject::AddClipToAudioTrack(const float time_stamp, Clip* clip){
 	audio_timeline.insert( { time_stamp, clip} );
 }
 
-Clip& KdenliveProject::CreateClipOnVideoTrack(const float time_stamp, const string &name, const float length, const float start_offset){
-	Clip& new_clip = CreateClip(name, length, start_offset);
+Clip* KdenliveProject::CreateClipOnVideoTrack(const float time_stamp, const string &name, const float length, const float start_offset){
+	Clip* new_clip = CreateClip(name, length, start_offset);
 
 	AddClipToVideoTrack(time_stamp, new_clip);
 
 	return new_clip;
 }
-Clip& KdenliveProject::CreateClipOnAudioTrack(const float time_stamp, const string &name, const float length, const float start_offset){
-	Clip& new_clip = CreateClip(name, length, start_offset);
+Clip* KdenliveProject::CreateClipOnAudioTrack(const float time_stamp, const string &name, const float length, const float start_offset){
+	Clip* new_clip = CreateClip(name, length, start_offset);
 
 	AddClipToAudioTrack(time_stamp, new_clip);
 
@@ -113,16 +113,16 @@ void KdenliveProject::GenerateFile(const vector<string> &media_folder_paths){ //
 	// Macro that adds a clip to a track
 	#define ADD_CLIP	float blank_length = entry_start_time - track_length;	\
 						kdenlive_file.AddBlankToTrack(track_id, blank_length);	\
-						ClipId clip_id = included_names.at(clip.name);	\
-						TrackEntryId entry_id = kdenlive_file.AddClipToTrack(track_id, clip_id, clip.length, clip.start_offset);	\
-						kdenlive_file.FadeClip(track_id, entry_id, clip.fade_in_time, clip.fade_out_time);	\
+						ClipId clip_id = included_names.at(clip->name);	\
+						TrackEntryId entry_id = kdenlive_file.AddClipToTrack(track_id, clip_id, clip->length, clip->start_offset);	\
+						kdenlive_file.FadeClip(track_id, entry_id, clip->fade_in_time, clip->fade_out_time);	\
 
 	// Add video clips
 	vector<TrackId> video_tracks;
 
 	for(auto video : video_timeline){
 		const float entry_start_time = video.first;
-		const Clip& clip = video.second;
+		const Clip* clip = video.second;
 		
 		// Check for availible tracks from the bottom up
 		for(int i = 0; i < video_tracks.size(); i++){
@@ -151,7 +151,7 @@ void KdenliveProject::GenerateFile(const vector<string> &media_folder_paths){ //
 
 	for(auto audio : audio_timeline){
 		float entry_start_time = audio.first;
-		Clip& clip = audio.second;
+		Clip* clip = audio.second;
 		// Check for availible tracks from the bottom up
 		for(int i = 0; i < audio_tracks.size(); i++){
 			TrackId track_id = audio_tracks[i];
