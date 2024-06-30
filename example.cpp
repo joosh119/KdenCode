@@ -29,7 +29,7 @@ int main(int argc, char** argv){
     proj.CreateClipOnAudioTrack( 0, "Free_Test_Data_500KB_MP3", 20 );
 
     // Add a clip to both the audio and video tracks
-    Clip clip_1 = proj.CreateClip("cavern_clinger_boss", 10);
+    Clip &clip_1 = proj.CreateClip("cavern_clinger_boss", 10);
     proj.AddClipToVideoTrack(9, clip_1);
     proj.AddClipToAudioTrack(9, clip_1);
 
