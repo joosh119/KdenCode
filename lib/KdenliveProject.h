@@ -47,16 +47,19 @@ class Clip{
 class KdenliveProject{
 	public:
 	// CONSTRUCTORS
-	/**	Creates a KdenliveProject with the given profile.
+	/**	Creates a KdenliveProject with the default profile of 30 fps and 1080p resolution.
+	 */
+	KdenliveProject();
+	
+	// SETTERS
+	/**	Sets the profile of the video.
 	 * 	NOTE: Kdenlive may only allow certain profile presets, so the profile you specify here may be overwritten by Kdenlive. 
      * 
      *  @param framerate specifies the framerate of the video
      *  @param frame_width specifies the width, in pixels, of the video
-     *  @param frame_length specifies the length, in pixels, of the video
+     *  @param frame_height specifies the length, in pixels, of the video
 	 */
-	KdenliveProject(const float framerate, const int frame_width, const int frame_length);
-	
-	// SETTERS
+	void SetProfile(const float framerate, const int frame_width, const int frame_height);
 	/**	Creates a clip with the given name and length.
 	 * 	This clip can then be passed to AddClipToVideoTrack() and/or AddClipToAudioTrack() to add it to the timeline.
 	 * 	If you add the same Clip* multiple times to a track, then any changes made to the clip will be reflected across the entire timeline.
@@ -107,27 +110,27 @@ class KdenliveProject{
 	std::string SaveAsString(const std::vector<std::string> &media_folder_paths);
 	/**	Generates a KdenliveFile and saves the file to the given path.
 	 * 	This function appends ".kdenlive" to the file name automatically.
+	 * 	If no output filepath is specified, then it will save the file to current directory.
 	 * 
 	 * 	@param media_folder_paths is a collection of paths to folders that contain the media for the project.
 	 * 	@param output_filepath is the path you want to save the .kdenlive file to.
 	 * 	@param file_name is the name you want to give the .kdenlive file.
 	 */
 	void SaveToFile(const std::vector<std::string> &media_folder_paths, 
-					const std::string &output_filepath,
-					const std::string &file_name = "kdenlive_project");
+					const std::string &file_name = "kdenlive_project",
+					const std::string &output_filepath = "");
 	
 	
 	private:
-	void GenerateFile(const std::vector<std::string> &media_folder_paths);
+	KdenliveFile* GenerateFile(const std::vector<std::string> &media_folder_paths);
 
 	// PRIVATE VARIABLES
 	float framerate;
 	int frame_width;
-	int frame_length;
+	int frame_height;
 	std::list<Clip> clips;
 	std::multimap<float, Clip*> video_timeline;
 	std::multimap<float, Clip*> audio_timeline;
-	KdenliveFile kdenlive_file;
 };
 
 

@@ -99,8 +99,9 @@ class KdenliveFile{
      */
     std::string ToString() const;
     /** Saves the KdenliveFile to the given directory.
+     *  If no output filepath is specified, then it will save the file to current directory.
      */
-    void SaveToFile(const std::string &output_filepath, const std::string file_name) const;
+    void SaveToFile(const std::string &file_name, const std::string &output_filepath = "") const;
 
 
     private:

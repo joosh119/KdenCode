@@ -10,7 +10,7 @@ using namespace tinyxml2;
 // This file is simply the default file created by Kdenlive when creating a new project.
 // The only changes that were made to the file were to remove references to filepaths.
 // Using this library to modify a file that has already been edited in will not work, as Kdenlive generates a lot of data that we don't generate here.
-const char* EMPTY_PROJECT_FILEPATH = "empty_project.kdenlive";
+const char* EMPTY_PROJECT_FILEPATH = "dependencies/empty_project.kdenlive";
 
 
 ifstream openInputFile(const string &file_path){
@@ -295,8 +295,13 @@ string KdenliveFile::ToString() const{
     return xml_string;
 }
 
-void KdenliveFile::SaveToFile(const string &output_filepath, const string file_name) const{
-    ofstream output = openOutputFile(output_filepath + "/" + file_name + ".kdenlive");
+void KdenliveFile::SaveToFile(const string &file_name, const string &output_filepath) const{
+    ofstream output;
+
+    if(output_filepath != "")
+        output = openOutputFile(output_filepath + "/" + file_name + ".kdenlive");
+    else
+        output = openOutputFile(file_name + ".kdenlive");
 	
     output << ToString();
 
