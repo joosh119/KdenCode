@@ -12,8 +12,8 @@ const char* DEFAULT_MEDIA_FORMAT = ".mp4";
 string findFilePath(const vector<string> &media_folder_paths, const string &file_name){
     // Iterate through each folder
 	for( const string &folder_path : media_folder_paths ){
-		// Check if file exists
-		if( !std::ifstream(folder_path).good() )
+		// Check if folder exists
+		if( !fs::exists(folder_path) )
 			continue;
 
 		for( const auto &entry : fs::directory_iterator(folder_path) ) {

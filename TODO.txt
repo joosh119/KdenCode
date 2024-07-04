@@ -3,3 +3,4 @@ Things that would be nice to implement:
 - Clip view priority (ensure certain clips are placed above others).
 - Placing markers.
 - Track positioning (placing certain tracks above or below others)
+- Set clips in folders
